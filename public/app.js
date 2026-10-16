@@ -63,7 +63,7 @@ function setPct(p) { $('#pct').textContent = Math.round(p); $('#ringFg').style.s
 
 // ---- composite 1080x1350 ----
 async function compose(src) {
-  await Promise.all([document.fonts.load('60px Werwulf'), document.fonts.load('30px "EB Garamond"')]);
+  await Promise.all([document.fonts.load('60px Werwulf'), document.fonts.load('30px "EB Garamond"')]).catch(() => {});
   const [img, tt] = await Promise.all([loadImg(src), loadImg('assets/title.png')]);
   const W = 1080, H = 1350, c = $('#cv'), x = c.getContext('2d'); c.width = W; c.height = H;
   x.fillStyle = '#0d0d0d'; x.fillRect(0, 0, W, H);

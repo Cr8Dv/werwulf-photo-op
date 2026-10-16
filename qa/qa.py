@@ -5,7 +5,7 @@ PHOTO = sys.argv[2]
 with sync_playwright() as p:
     b = p.chromium.launch(executable_path='/usr/bin/google-chrome', args=['--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream'])
     for name, vp, mob in [('mobile', {'width': 390, 'height': 844}, True), ('desktop', {'width': 1440, 'height': 900}, False)]:
-        ctx = b.new_context(extra_http_headers={'bypass-tunnel-reminder':'1'}, viewport=vp, is_mobile=mob, has_touch=mob, device_scale_factor=2 if mob else 1, accept_downloads=True, permissions=['camera'])
+        ctx = b.new_context(viewport=vp, is_mobile=mob, has_touch=mob, device_scale_factor=2 if mob else 1, accept_downloads=True, permissions=['camera'])
         pg = ctx.new_page(); pg.goto(BASE); pg.wait_for_timeout(1500)
         s = lambda n: pg.screenshot(path=f'qa/{name}_{n}.png')
         s('01_landing'); pg.check('#agree'); pg.click('#begin'); pg.wait_for_timeout(600); s('02_choose')
