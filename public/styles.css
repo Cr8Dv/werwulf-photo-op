@@ -57,3 +57,4 @@ h1{font-size:46px;line-height:1.05;margin-bottom:14px}h2{font-size:34px;line-hei
 .logo img{display:block;height:28px;width:auto}@media(min-width:900px){.logo img{height:40px}}
 #loadVid{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0;transition:opacity .8s;pointer-events:none}#loadVid.on{opacity:.85}#tease{mix-blend-mode:screen}
 #tease{display:none!important}
+.tmodal{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;padding:16px}.tmodal[hidden]{display:none}.tbox{position:relative;width:100%;max-width:1100px}.tframe{position:relative;padding-top:56.25%;background:#000;border:1px solid #444}.tframe iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.tclose{position:absolute;top:-44px;right:0;background:none;border:0;color:#ddd;font-size:38px;line-height:1;cursor:pointer}

@@ -6,7 +6,12 @@ let photoBlob = null, finalBlob = null, stream = null, facing = 'user';
 const show = id => { $$('.screen').forEach(s => s.classList.toggle('active', s.id === id)); scrollTo(0, 0); if (id !== 'camera') stopCam(); };
 $$('[data-go]').forEach(a => a.onclick = e => { e.preventDefault(); show(a.dataset.go); });
 $$('[data-tickets]').forEach(a => { a.href = TICKETS; a.target = '_blank'; a.rel = 'noopener'; });
-$$('[data-trailer]').forEach(a => { a.href = TRAILER; a.target = '_blank'; a.rel = 'noopener'; });
+const YT = 'https://www.youtube.com/embed/cmjpadVj-Vk?autoplay=1&rel=0&playsinline=1';
+const tm = document.getElementById('trailerModal'), tf = document.getElementById('trailerFrame');
+const closeT = () => { tm.hidden = true; tf.src = ''; };
+$$('[data-trailer]').forEach(a => { a.href = '#'; a.removeAttribute('target'); a.onclick = e => { e.preventDefault(); tf.src = YT; tm.hidden = false; }; });
+tm.onclick = e => { if (e.target === tm || e.target.classList.contains('tclose')) closeT(); };
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !tm.hidden) closeT(); });
 $('#agree').onchange = e => $('#begin').disabled = !e.target.checked;
 $('#begin').onclick = () => show('choose');
 

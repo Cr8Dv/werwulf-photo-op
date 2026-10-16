@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="styles.css"></head><body>
 <div class="grain"></div>
 <header class="top"><a class="logo" href="#" data-go="landing"><img src="assets/logo-white.png" alt="WERWULF"></a>
-<nav><a href="#" data-go="choose" class="hide-m">How it works</a><a href="https://www.focusfeatures.com/werwulf" target="_blank" rel="noopener" class="hide-m">Trailer</a><a class="btn-sm" href="#" data-tickets>Get Tickets</a></nav></header>
+<nav><a href="#" data-go="choose" class="hide-m">How it works</a><a href="#" data-trailer class="hide-m">Trailer</a><a class="btn-sm" href="#" data-tickets>Get Tickets</a></nav></header>
 <main>
 <section id="landing" class="screen active">
  <div class="hero-bg"></div>
@@ -65,4 +65,5 @@
 </section>
 </main>
 <canvas id="cv" hidden></canvas>
-<script src="app.js"></script></body></html>
+<script src="app.js"></script><div id="trailerModal" class="tmodal" hidden><div class="tbox"><button class="tclose" aria-label="Close">&times;</button><div class="tframe"><iframe id="trailerFrame" title="WERWULF Trailer" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div></div></div>
+</body></html>
