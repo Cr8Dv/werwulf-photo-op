@@ -46,8 +46,8 @@ $('#retake').onclick = () => show('choose');
 // ---- generate ----
 $('#usePhoto').onclick = async () => {
   show('generating'); let p = 0, li = 0;
-  const tick = setInterval(() => { p = Math.min(96, p + Math.max(.4, (96 - p) * .06)); setPct(p); }, 250);
-  const rot = setInterval(() => { const g = $('#genLine'); g.style.opacity = 0; setTimeout(() => { g.textContent = LINES[++li % LINES.length]; g.style.opacity = 1; }, 600); }, 3000);
+  const t0 = Date.now(); const tick = setInterval(() => { const t = (Date.now() - t0) / 1000; p = t < 80 ? 92 * (1 - Math.pow(1 - t / 80, 2)) : Math.min(98, 92 + (t - 80) * 0.1); setPct(p); }, 250);
+  const rot = setInterval(() => { const g = $('#genLine'); g.style.opacity = 0; setTimeout(() => { g.textContent = LINES[++li % LINES.length]; g.style.opacity = 1; }, 600); }, 5000);
   $('#genLine').textContent = LINES[0];
   try {
     const fd = new FormData(); fd.append('photo', photoBlob, 'photo.jpg');
