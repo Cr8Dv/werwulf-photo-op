@@ -93,7 +93,7 @@ function spaced(x, t, cx, y, sp) { const ch = [...t], ws = ch.map(c => x.measure
 
 // ---- result actions ----
 let FN = 'WERWULF-family-portrait.jpg';
-const newFN = () => { const d = new Date(), z = n => String(n).padStart(2, '0'); return `WERWULF-portrait-${d.getFullYear()}${z(d.getMonth()+1)}${z(d.getDate())}-${z(d.getHours())}${z(d.getMinutes())}${z(d.getSeconds())}-${Math.random().toString(36).slice(2, 6).toUpperCase()}.jpg`; };
+const newFN = () => `WERWULF-${Math.random().toString(36).slice(2, 7).toUpperCase()}.jpg`;
 $('#download').onclick = () => {
   const a = document.createElement('a'); a.href = URL.createObjectURL(finalBlob); a.download = FN; document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => { show('cta'); $('#toast').classList.add('show'); setTimeout(() => $('#toast').classList.remove('show'), 3500); }, 900);
