@@ -88,6 +88,7 @@ async function compose(src) {
   const id = x.getImageData(0, 0, W, H), d = id.data;
   for (let i = 0; i < d.length; i += 4) { const n = (Math.random() - .5) * 18; d[i] += n; d[i + 1] += n; d[i + 2] += n; }
   x.putImageData(id, 0, 0);
+  $('#sizeNote').textContent = `Portrait ${W}×${H} JPG`;
   finalBlob = await new Promise(r => c.toBlob(r, 'image/jpeg', .92));
   $('#finalImg').src = URL.createObjectURL(finalBlob);
 }
