@@ -50,7 +50,7 @@ app.post('/api/generate', rateLimit({ windowMs: 15 * 60e3, limit: +(process.env.
     let out = await providers[provider](img);
     out = await sharp(out).grayscale().jpeg({ quality: 92 }).toBuffer(); // enforce no color
     s.json({ image: dataUri(out), mode: provider === 'demo' ? 'demo' : 'live' });
-  } catch (e) { console.error(e); s.status(502).json({ error: 'The summoning failed. Please try again.' }); }
+  } catch (e) { console.error(e); s.status(502).json({ error: 'The summoning failed. Please try again.', detail: String(e.message || e).slice(0, 300) }); }
 });
 app.use((e, q, s, n) => s.status(e.code === 'LIMIT_FILE_SIZE' ? 413 : 400).json({ error: e.code === 'LIMIT_FILE_SIZE' ? 'That photo is too large (10 MB max).' : 'Upload failed.' }));
 if (require.main === module) app.listen(process.env.PORT || 3000, () => console.log(`WERWULF on :${process.env.PORT || 3000} (${provider})`));
