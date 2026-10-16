@@ -45,7 +45,7 @@ $('#retake').onclick = () => show('choose');
 
 // ---- generate ----
 $('#usePhoto').onclick = async () => {
-  show('generating'); let p = 0, li = 0; const tz = $('#tease'); const lv = $('#loadVid'); lv.currentTime = 0; lv.classList.add('on'); lv.play().catch(() => {}); tz.src = URL.createObjectURL(photoBlob);
+  show('generating'); let p = 0, li = 0; const tz = $('#tease'); const lv = $('#loadVid'); lv.currentTime = 0; lv.classList.add('on'); lv.play().catch(() => {}); 
   const t0 = Date.now(); const tick = setInterval(() => { const t = (Date.now() - t0) / 1000; const T = 35; p = t < T ? 92 * (1 - Math.pow(1 - t / T, 2)) : Math.min(98, 92 + (t - T) * 0.15); setPct(p); const k = Math.min(1, p / 92); tz.style.opacity = (0.15 + 0.25 * k).toFixed(2); tz.style.filter = `grayscale(${k}) sepia(${0.15 * k}) contrast(${1 - 0.35 * k}) brightness(${1 - 0.25 * k}) blur(${(6 - 3 * k).toFixed(1)}px)`; }, 250);
   const rot = setInterval(() => { const g = $('#genLine'); g.style.opacity = 0; setTimeout(() => { g.textContent = LINES[++li % LINES.length]; g.style.opacity = 1; }, 600); }, 5000);
   $('#genLine').textContent = LINES[0];
