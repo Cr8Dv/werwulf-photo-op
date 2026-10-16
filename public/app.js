@@ -1,5 +1,5 @@
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
-const TICKETS = 'https://www.focusfeatures.com/werwulf/tickets'; // placeholder
+const TICKETS = 'https://www.focusfeatures.com/werwulf'; // placeholder
 const TRAILER = 'https://www.focusfeatures.com/werwulf';
 const LINES = ['Thy Soule Is Cursid', 'Do Not Dread the Darkness', 'Embrace It', 'Devoureth All Mankynde'];
 let photoBlob = null, finalBlob = null, stream = null, facing = 'user';
