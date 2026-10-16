@@ -53,7 +53,7 @@ $('#usePhoto').onclick = async () => {
     const fd = new FormData(); fd.append('photo', photoBlob, 'photo.jpg');
     const r = await fetch('/api/generate', { method: 'POST', body: fd }); const j = await r.json();
     if (!r.ok) throw new Error(j.error || 'Something went wrong.');
-    setPct(100); await compose(j.image);
+    setPct(100); await compose(j.image); FN = newFN();
     $('#demoNote').textContent = j.mode === 'demo' ? 'Demo mode: sample portrait shown in place of live AI.' : '';
     show('result');
   } catch (e) { err(e.message); show('choose'); }
@@ -92,7 +92,8 @@ async function compose(src) {
 function spaced(x, t, cx, y, sp) { const ch = [...t], ws = ch.map(c => x.measureText(c).width), tot = ws.reduce((a, b) => a + b, 0) + sp * (ch.length - 1); let px = cx - tot / 2; x.textAlign = 'left'; ch.forEach((c, i) => { x.fillText(c, px, y); px += ws[i] + sp; }); x.textAlign = 'center'; }
 
 // ---- result actions ----
-const FN = 'WERWULF-family-portrait.jpg';
+let FN = 'WERWULF-family-portrait.jpg';
+const newFN = () => { const d = new Date(), z = n => String(n).padStart(2, '0'); return `WERWULF-portrait-${d.getFullYear()}${z(d.getMonth()+1)}${z(d.getDate())}-${z(d.getHours())}${z(d.getMinutes())}${z(d.getSeconds())}-${Math.random().toString(36).slice(2, 6).toUpperCase()}.jpg`; };
 $('#download').onclick = () => {
   const a = document.createElement('a'); a.href = URL.createObjectURL(finalBlob); a.download = FN; document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => { show('cta'); $('#toast').classList.add('show'); setTimeout(() => $('#toast').classList.remove('show'), 3500); }, 900);
