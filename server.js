@@ -16,7 +16,7 @@ const providers = {
     fd.append('model', process.env.OPENAI_IMAGE_MODEL || 'gpt-image-1');
     fd.append('image[]', new Blob([img], { type: 'image/jpeg' }), 'family.jpg');
     if (process.env.USE_REF === '1') fd.append('image[]', new Blob([REF], { type: 'image/png' }), 'reference.png');
-    fd.append('prompt', PROMPT); fd.append('size', '1536x1024'); fd.append('quality', process.env.OPENAI_IMAGE_QUALITY || 'high');
+    fd.append('prompt', PROMPT); fd.append('size', '1536x1024'); fd.append('quality', process.env.OPENAI_IMAGE_QUALITY || 'medium');
     fd.append('input_fidelity', 'high'); fd.append('moderation', 'low');
     const r = await fetch('https://api.openai.com/v1/images/edits', { method: 'POST', headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}` }, body: fd });
     const j = await r.json(); if (!r.ok) throw new Error(j.error?.message || 'OpenAI error');

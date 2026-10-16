@@ -52,3 +52,5 @@ h1{font-size:46px;line-height:1.05;margin-bottom:14px}h2{font-size:34px;line-hei
  .panel.wide{max-width:1000px}#finalImg{max-height:72vh;width:auto;max-width:100%;margin:0 auto}
  #cta .panel{margin:auto 0;max-width:460px;text-align:left}#cta .tt{margin:0 0 6px}.big{font-size:40px}
 }
+
+#tease{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0;pointer-events:none;transition:filter .4s,opacity .8s}#tease~.panel{position:relative;z-index:1}

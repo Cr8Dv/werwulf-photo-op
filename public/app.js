@@ -45,8 +45,8 @@ $('#retake').onclick = () => show('choose');
 
 // ---- generate ----
 $('#usePhoto').onclick = async () => {
-  show('generating'); let p = 0, li = 0;
-  const t0 = Date.now(); const tick = setInterval(() => { const t = (Date.now() - t0) / 1000; p = t < 80 ? 92 * (1 - Math.pow(1 - t / 80, 2)) : Math.min(98, 92 + (t - 80) * 0.1); setPct(p); }, 250);
+  show('generating'); let p = 0, li = 0; const tz = $('#tease'); tz.src = URL.createObjectURL(photoBlob);
+  const t0 = Date.now(); const tick = setInterval(() => { const t = (Date.now() - t0) / 1000; const T = 45; p = t < T ? 92 * (1 - Math.pow(1 - t / T, 2)) : Math.min(98, 92 + (t - T) * 0.15); setPct(p); const k = Math.min(1, p / 92); tz.style.opacity = (0.15 + 0.25 * k).toFixed(2); tz.style.filter = `grayscale(${k}) sepia(${0.15 * k}) contrast(${1 - 0.35 * k}) brightness(${1 - 0.25 * k}) blur(${(6 - 3 * k).toFixed(1)}px)`; }, 250);
   const rot = setInterval(() => { const g = $('#genLine'); g.style.opacity = 0; setTimeout(() => { g.textContent = LINES[++li % LINES.length]; g.style.opacity = 1; }, 600); }, 5000);
   $('#genLine').textContent = LINES[0];
   try {
@@ -57,7 +57,7 @@ $('#usePhoto').onclick = async () => {
     $('#demoNote').textContent = j.mode === 'demo' ? 'Demo mode: sample portrait shown in place of live AI.' : '';
     show('result');
   } catch (e) { err(e.message); show('choose'); }
-  finally { clearInterval(tick); clearInterval(rot); }
+  finally { clearInterval(tick); clearInterval(rot); tz.style.opacity = 0; }
 };
 function setPct(p) { $('#pct').textContent = Math.round(p); $('#ringFg').style.strokeDashoffset = 339.3 * (1 - p / 100); }
 
