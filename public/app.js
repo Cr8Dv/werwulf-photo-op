@@ -65,12 +65,14 @@ function setPct(p) { $('#pct').textContent = Math.round(p); $('#ringFg').style.s
 async function compose(src) {
   await Promise.all([document.fonts.load('60px Werwulf'), document.fonts.load('30px "EB Garamond"')]).catch(() => {});
   const [img, tt] = await Promise.all([loadImg(src), loadImg('assets/title.png')]);
-  const W = 1080, H = 1350, c = $('#cv'), x = c.getContext('2d'); c.width = W; c.height = H;
+  const W = 1080, FOOT = 104 + 44 + 62 + 58 + 34 + 80, ttH = 640 * tt.height / tt.width, TOP = 92 + ttH + 46;
+  let bw = W - 160, bh = Math.round(bw * img.height / img.width); const maxBh = 1920 - TOP - FOOT; if (bh > maxBh) { bh = maxBh; bw = Math.round(bh * img.width / img.height); }
+  const H = Math.max(1350, Math.round(TOP + bh + FOOT)), c = $('#cv'), x = c.getContext('2d'); c.width = W; c.height = H;
   x.fillStyle = '#0d0d0d'; x.fillRect(0, 0, W, H);
   const g = x.createRadialGradient(W / 2, H / 2, 200, W / 2, H / 2, 900); g.addColorStop(0, '#1a1a1a'); g.addColorStop(1, '#070707'); x.fillStyle = g; x.fillRect(0, 0, W, H);
   x.strokeStyle = '#4a4a4a'; x.lineWidth = 2; x.strokeRect(30, 30, W - 60, H - 60); x.strokeStyle = '#2c2c2c'; x.strokeRect(44, 44, W - 88, H - 88);
   const tw = 640, th = tw * tt.height / tt.width; x.drawImage(tt, (W - tw) / 2, 92, tw, th);
-  const bx = 80, by = 92 + th + 46, bw = W - 160, bh = Math.round(bw * 2 / 3);
+  const bx = Math.round((W - bw) / 2), by = Math.round(92 + th + 46 + Math.max(0, (H - TOP - bh - FOOT) / 2));
   const s = Math.max(bw / img.width, bh / img.height), sw = bw / s, sh = bh / s;
   x.save(); x.filter = 'grayscale(1)'; x.drawImage(img, (img.width - sw) / 2, (img.height - sh) / 2, sw, sh, bx, by, bw, bh); x.restore();
   x.strokeStyle = '#8a8a8a'; x.lineWidth = 2; x.strokeRect(bx - 10, by - 10, bw + 20, bh + 20);
