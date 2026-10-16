@@ -1,0 +1,8 @@
+# Netlify: easiest path is Render/Railway for the Express server, or wrap with serverless-http:
+# netlify/functions/api.js -> const serverless=require('serverless-http'); module.exports.handler=serverless(require('../../server'));
+[build]
+  publish = "public"
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200

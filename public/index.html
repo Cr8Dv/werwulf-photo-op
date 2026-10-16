@@ -1,0 +1,68 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b0b0b">
+<title>WERWULF — Summon Thy Family to the Moor</title>
+<meta name="description" content="Upload a family photo and receive a portrait from the world of Robert Eggers' WERWULF.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"></head><body>
+<div class="grain"></div>
+<header class="top"><a class="logo ww" href="#" data-go="landing">Werwulf</a>
+<nav><a href="#" data-go="choose" class="hide-m">How it works</a><a href="https://www.instagram.com/werwulfmovie" target="_blank" rel="noopener" class="hide-m">Trailer</a><a class="btn-sm" href="#" data-tickets>Get Tickets</a></nav></header>
+<main>
+<section id="landing" class="screen active">
+ <div class="hero-bg"></div>
+ <div class="copy">
+  <p class="ww tag">Devoureth All Mankynde</p>
+  <h1 class="ww">Summon Thy Family to the Moor</h1>
+  <p class="lede">Upload a family photo and receive a portrait from the world of Robert Eggers’ WERWULF, ready to download and share.</p>
+  <div class="row"><button class="btn primary ww" id="begin" disabled>Begin</button><a class="btn ww hide-m" href="#" data-trailer>Watch the Trailer</a></div>
+  <label class="agree"><input type="checkbox" id="agree"> I agree to the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a></label>
+  <p class="ww foot-line">Only in Theaters This Christmas</p><p class="legal">Focus Features · © 2026 Focus Features LLC</p>
+ </div>
+</section>
+<section id="choose" class="screen">
+ <div class="panel">
+  <p class="step">Step One</p><h2 class="ww">Present Thy Kin</h2>
+  <p>Choose a family photo, or gather everyone and take one now.</p>
+  <button class="btn primary ww" id="btnUpload">&#x2191;&nbsp; Upload a Photo</button>
+  <button class="btn ww" id="btnCamera">&#x25CE;&nbsp; Take a Photo</button>
+  <input type="file" id="fileUpload" accept="image/*" hidden><input type="file" id="fileCapture" accept="image/*" capture="user" hidden>
+  <div class="tips"><p class="step">For the best portrait</p><ul>
+   <li><b>Well lit</b> — daylight or a bright room</li><li><b>Faces visible</b> — everyone looking toward the camera</li>
+   <li><b>Up to six souls</b> — adults, children, even the dog</li><li><b>One shot only</b> — no collages, filters or heavy edits</li></ul></div>
+  <p class="err" id="chooseErr"></p>
+ </div>
+ <div class="side-img hide-m"></div>
+</section>
+<section id="camera" class="screen">
+ <div class="panel"><p class="step">Step One</p><h2 class="ww">Gather Close</h2>
+  <div class="frame"><video id="video" playsinline autoplay muted></video></div>
+  <button class="btn primary ww" id="snap">Take Photo</button><button class="btn ww" id="flip">Flip Camera</button><a href="#" class="link ww" data-go="choose">Back</a></div>
+</section>
+<section id="preview" class="screen">
+ <div class="panel"><p class="step">Step Two</p><h2 class="ww">Thy Family Gathered</h2>
+  <div class="frame"><img id="previewImg" alt="Your photo"></div>
+  <p class="checks">Faces found · Good light · Sharp</p>
+  <button class="btn primary ww" id="usePhoto">Use This Photo</button><button class="btn ww" id="retake">Retake</button></div>
+</section>
+<section id="generating" class="screen">
+ <div class="panel center"><div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" class="bg"/><circle cx="60" cy="60" r="54" class="fg" id="ringFg"/></svg><div class="pct"><span id="pct">0</span><small>percent</small></div></div>
+  <p class="step">Summoning the portrait</p><p class="ww gen-line" id="genLine">Thy Soule Is Cursid</p>
+  <p class="note">This takes a few moments. Keep this page open.</p></div>
+</section>
+<section id="result" class="screen">
+ <div class="panel wide"><h2 class="ww">Behold</h2>
+  <div class="result-wrap"><img id="finalImg" alt="Your WERWULF portrait"><div class="actions">
+  <button class="btn primary ww" id="download">&#x2913;&nbsp; Download JPG</button><button class="btn ww" id="share">&#x2191;&nbsp; Share</button>
+  <a href="#" class="link ww" id="tryAgain">Try Again</a><p class="legal">Portrait 1080×1350 JPG</p><p class="demo" id="demoNote"></p></div></div></div>
+</section>
+<section id="cta" class="screen">
+ <div class="cta-bg"></div><div class="toast" id="toast">&#x2713; Portrait saved to your photos</div>
+ <div class="panel center"><img src="assets/title.png" class="tt" alt="WERWULF">
+  <p class="ww big">Only in Theaters This Christmas</p>
+  <a class="btn primary ww" href="#" data-tickets>Get Tickets</a><a class="btn ww" href="#" data-trailer>&#x25B6;&nbsp; Watch the Trailer</a>
+  <p class="links"><a href="https://devourethallmankynde.com" target="_blank" rel="noopener">DevourethAllMankynde.com</a><br>Follow <a href="https://www.instagram.com/werwulfmovie" target="_blank" rel="noopener">@werwulfmovie</a></p>
+  <a href="#" class="link ww" id="again2">Make Another</a><p class="legal">Focus Features · © 2026 Focus Features LLC</p></div>
+</section>
+</main>
+<canvas id="cv" hidden></canvas>
+<script src="app.js"></script></body></html>
