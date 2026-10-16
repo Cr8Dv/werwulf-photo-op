@@ -1,7 +1,7 @@
 const express = require('express'), multer = require('multer'), rateLimit = require('express-rate-limit');
 const fs = require('fs'), path = require('path'), sharp = require('sharp');
 const app = express(); app.set('trust proxy', 1);
-const PROMPT = "Turn the people in the first photo into a vintage black-and-white historical family portrait in the style of a somber early-1900s silver-grey photograph. Keep their faces and ages recognizable. Family stands together outdoors, medium-wide shot, dressed as 13th-century peasants in coarse wool hoods, head wraps and shawls; flat hazy treeless hill horizon, blank pale sky, bare brambles. Washed-out low-contrast silver-grey monochrome like an early 1900s photograph, soft grain, calm serious expressions looking at camera. No smiling, no text, no modern clothing.";
+const PROMPT = "Edit this photo, do not create a new scene. Keep EXACTLY the same number of people as in the photo, no added or removed people. Keep every person's face, identity, expression, head angle, body pose, position, framing and camera angle exactly as in the original. Only change: their clothing into coarse 13th-century peasant wool garments (hoods, head wraps, shawls) fitted to their existing pose, and replace the background with a bleak, hazy, treeless moorland hill under a blank pale sky with bare brambles. Render the whole image as a washed-out, low-contrast silver-grey black-and-white photograph like an early 1900s print, soft film grain, somber Robert Eggers period-film mood. No text, no modern clothing or objects.";
 const REF = fs.readFileSync(path.join(__dirname, 'reference.png'));
 const provider = (process.env.AI_PROVIDER || (process.env.OPENAI_API_KEY ? 'openai' : process.env.REPLICATE_API_TOKEN ? 'replicate' : process.env.FAL_KEY ? 'fal' : 'demo')).toLowerCase();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 },
@@ -16,7 +16,7 @@ const providers = {
     fd.append('model', process.env.OPENAI_IMAGE_MODEL || 'gpt-image-1');
     fd.append('image[]', new Blob([img], { type: 'image/jpeg' }), 'family.jpg');
     if (process.env.USE_REF === '1') fd.append('image[]', new Blob([REF], { type: 'image/png' }), 'reference.png');
-    fd.append('prompt', PROMPT); fd.append('size', '1536x1024'); fd.append('quality', process.env.OPENAI_IMAGE_QUALITY || 'medium');
+    fd.append('prompt', PROMPT); fd.append('size', process.env.OPENAI_IMAGE_SIZE || 'auto'); fd.append('quality', process.env.OPENAI_IMAGE_QUALITY || 'medium');
     fd.append('input_fidelity', 'high'); fd.append('moderation', 'low');
     const r = await fetch('https://api.openai.com/v1/images/edits', { method: 'POST', headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}` }, body: fd });
     const j = await r.json(); if (!r.ok) throw new Error(j.error?.message || 'OpenAI error');
