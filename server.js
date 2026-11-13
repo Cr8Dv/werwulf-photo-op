@@ -12,15 +12,30 @@ const dataUri = (b, m='image/jpeg') => `data:${m};base64,${b.toString('base64')}
 const providers = {
   async demo() { await sleep(6000); const n = 1 + Math.floor(Math.random() * 2); return fs.readFileSync(path.join(__dirname, 'demo', `sample${n}.jpg`)); },
   async openai(img) {
-    const fd = new FormData();
-    fd.append('model', process.env.OPENAI_IMAGE_MODEL || 'gpt-image-1');
-    fd.append('image[]', new Blob([img], { type: 'image/jpeg' }), 'family.jpg');
-    if (process.env.USE_REF === '1') fd.append('image[]', new Blob([REF], { type: 'image/png' }), 'reference.png');
-    fd.append('prompt', PROMPT); fd.append('size', process.env.OPENAI_IMAGE_SIZE || 'auto'); fd.append('quality', process.env.OPENAI_IMAGE_QUALITY || 'medium');
-    fd.append('input_fidelity', 'high'); fd.append('moderation', 'low');
-    const r = await fetch('https://api.openai.com/v1/images/edits', { method: 'POST', headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}` }, body: fd });
-    const j = await r.json(); if (!r.ok) throw new Error(j.error?.message || 'OpenAI error');
-    return Buffer.from(j.data[0].b64_json, 'base64');
+    // gpt-image-1 was shut down by OpenAI on Oct 23, 2026. Ignore retired model names (e.g. a stale OPENAI_IMAGE_MODEL env var)
+    // and fall back through current image-edit models if one is unavailable to this key.
+    const RETIRED = /^(gpt-image-1|dall-e-[23])$/;
+    const want = process.env.OPENAI_IMAGE_MODEL && !RETIRED.test(process.env.OPENAI_IMAGE_MODEL) ? [process.env.OPENAI_IMAGE_MODEL] : [];
+    const models = [...new Set([...want, 'gpt-image-2.6-sunburst', 'gpt-image-2.5-sunburst', 'gpt-image-1.5'])];
+    let lastErr;
+    for (const model of models) {
+      const fd = new FormData();
+      fd.append('model', model);
+      fd.append('image[]', new Blob([img], { type: 'image/jpeg' }), 'family.jpg');
+      if (process.env.USE_REF === '1') fd.append('image[]', new Blob([REF], { type: 'image/png' }), 'reference.png');
+      fd.append('prompt', PROMPT); fd.append('size', process.env.OPENAI_IMAGE_SIZE || 'auto'); fd.append('quality', process.env.OPENAI_IMAGE_QUALITY || 'medium');
+      if (/^gpt-image-1\.5/.test(model)) fd.append('input_fidelity', 'high'); // gpt-image-2+ always uses high fidelity and rejects this param
+      if (/^gpt-image-2\.6/.test(model)) fd.append('complexity', process.env.OPENAI_IMAGE_COMPLEXITY || 'medium');
+      fd.append('moderation', 'low');
+      const r = await fetch('https://api.openai.com/v1/images/edits', { method: 'POST', headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}` }, body: fd });
+      const j = await r.json().catch(() => ({}));
+      if (r.ok) { console.log('openai model', model); return Buffer.from(j.data[0].b64_json, 'base64'); }
+      lastErr = new Error(j.error?.message || `OpenAI error ${r.status}`);
+      const msg = String(j.error?.message || '');
+      if (!(r.status === 404 || /model|does not exist|not supported|unsupported|unknown parameter|access/i.test(msg)) || j.error?.code === 'moderation_blocked') throw lastErr;
+      console.error(`openai ${model} failed, trying next:`, msg);
+    }
+    throw lastErr;
   },
   async replicate(img) { // FLUX Kontext (single input image; reference described via prompt)
     const r = await fetch(`https://api.replicate.com/v1/models/${process.env.REPLICATE_MODEL || 'black-forest-labs/flux-kontext-pro'}/predictions`, {

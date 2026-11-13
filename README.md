@@ -7,7 +7,7 @@ Final 1080×1350 JPG is composited in-browser (canvas) with title treatment, Wer
 No key set → DEMO mode (returns a sample portrait after ~6s).
 
 ## Live AI (server-side keys only)
-- `OPENAI_API_KEY` → OpenAI gpt-image-1 `images/edits` (default; uploaded photo + reference still, input_fidelity=high)
+- `OPENAI_API_KEY` → OpenAI `images/edits` with gpt-image-2.6-sunburst (default; falls back to gpt-image-2.5-sunburst, gpt-image-1.5). gpt-image-1 was shut down Oct 23, 2026. Override with `OPENAI_IMAGE_MODEL`, `OPENAI_IMAGE_COMPLEXITY` (2.6 only, default medium)
 - or `REPLICATE_API_TOKEN` (FLUX Kontext Pro) / `FAL_KEY` (FLUX Kontext Max multi-image)
 - `AI_PROVIDER=openai|replicate|fal|demo` forces a provider. Optional: `RATE_LIMIT` (per IP / 15 min, default 8), `OPENAI_IMAGE_QUALITY`.
 
